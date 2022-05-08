@@ -18,11 +18,11 @@
     "test:preload": "vitest run -r packages/preload --passWithNoTests",
     "test:renderer": "vitest run -r packages/renderer --passWithNoTests",
     "watch": "node scripts/watch.js",
-    "lint": "eslint . --ext js,ts,vue",
+    "lint0": "eslint . --ext js,ts,vue",
     "typecheck:main": "tsc --noEmit -p packages/main/tsconfig.json",
     "typecheck:preload": "tsc --noEmit -p packages/preload/tsconfig.json",
-    "typecheck:renderer": "vue-tsc --noEmit -p packages/renderer/tsconfig.json",
-    "typecheck": "npm run typecheck:main && npm run typecheck:preload && npm run typecheck:renderer"
+    "typecheck:renderer0": "vue-tsc --noEmit -p packages/renderer/tsconfig.json",
+    "typecheck0": "npm run typecheck:main && npm run typecheck:preload && npm run typecheck:renderer"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.12.1",

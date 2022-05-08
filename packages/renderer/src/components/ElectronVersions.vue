@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-/**
+/*
  * window.versions was exposed from {@link module:preload}
  */
 const versions = Object.entries(window.versions)
