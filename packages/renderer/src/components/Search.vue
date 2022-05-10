@@ -19,7 +19,7 @@
     </div>
 
     <div class="system-info">
-      <!-- {{ executionInfo }}-->
+      {{ executionInfo }}
       <mazolution ref="mazolution"></mazolution> 
     </div>
   </div>
@@ -32,7 +32,7 @@ import Engine from "../../types/Engine";
 
 import mazolution from "./Mazolution.vue";
 
-const { remote } = require("electron");
+const { BrowserWindow } = require('@electron/remote')
 const ipc = require("electron").ipcRenderer;
 const _ = require("underscore");
 
@@ -68,7 +68,7 @@ export default {
         const ipcRenderer = require("electron").ipcRenderer;
         ipcRenderer.send("set-driver", "editor");
 
-        remote.BrowserWindow.getFocusedWindow().hide();
+        BrowserWindow.getFocusedWindow().hide();
 
         var result = null;
         //todo: check environment first

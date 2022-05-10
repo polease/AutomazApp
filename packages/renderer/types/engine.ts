@@ -1,22 +1,25 @@
-const d3 = require("d3-queue")
+
+import { AutomationStep } from "./AutomationStep";
 import Log from  "./log";
 
-export default class Engine {
-	q = d3.queue(1); 
+export default class Engine { 
 	log = new Log();
 
 	engineContext = {}
 
-	execute(automationStep) {
-		this.q.defer(this.executeTask, automationStep, this);
+	async execute(automationStep:AutomationStep) {
+		if(automationStep.waitForStep)
+			await this.executeTask(automationStep, this);
+		else
+			this.executeTask(automationStep,this);
 
 	};
 
-	executeTask(automationStep, engine, stepCompleted) {
+	executeTask(automationStep:AutomationStep, engine, stepCompleted) {
 		// this is executed in Queee's context
 		log.info(`Evaluation Step ${automationStep.number} started`);
 		try {
-			engine.evalInContext(automationStep.automation,
+			engine.evalInContext(automationStep.automationScript,
 				{
 					engineContext: engine.engineContext,
 					stepCompleted: stepCompleted,

@@ -27,12 +27,19 @@ const config = {
     },
   },
   build: {
+    root: "./",
     sourcemap: true,
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
+    publicDir: 'assets',
     rollupOptions: {
-      input: join(PACKAGE_ROOT, 'index.html'),
+      input: {
+        index: join(PACKAGE_ROOT, 'index.html'),
+        editor: join(PACKAGE_ROOT, 'editor.html'),
+        host : join(PACKAGE_ROOT, 'host.html'),
+      },
+
       external: [
         ...builtinModules.flatMap(p => [p, `node:${p}`]),
       ],

@@ -1,6 +1,7 @@
-import {BrowserWindow} from 'electron';
-import {join} from 'path';
-import {URL} from 'url';
+import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
+import { join } from 'path';
+import { URL } from 'url'; 
+
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({
@@ -39,6 +40,133 @@ async function createWindow() {
 
 
   await browserWindow.loadURL(pageUrl);
+
+ /**
+   * URL for main window.
+   * Vite dev server for development.
+   * `file://../renderer/index.html` for production and test
+   */
+  const hostPageUrl =  new URL('../renderer/dist/host.html', 'file://' + __dirname).toString();
+
+  const hostWindow = new BrowserWindow(
+    {
+      width: 800,
+      height: 600,
+      x: 0,
+      y: 0,
+      /*
+      webPreferences: { 
+        preload: path.join(__dirname, 'injection.js')
+      }
+      */
+    });
+    await hostWindow.loadURL(hostPageUrl);
+
+
+ /**
+   * URL for main window.
+   * Vite dev server for development.
+   * `file://../renderer/index.html` for production and test
+   */
+  const editorPageUrl = new URL('../renderer/dist/editor.html', 'file://' + __dirname).toString();
+
+
+  const editorWindow = new BrowserWindow(
+    {
+      width: 400,
+      height: 600,
+      x: 800,
+      y: 0,
+      /*
+      webPreferences: { 
+        preload: path.join(__dirname, 'injection.js')
+      }
+      */
+    });
+    await editorWindow.loadURL(editorPageUrl); 
+
+
+
+
+    let driverWindow = browserWindow;
+    let busWindow = hostWindow;
+  
+  
+    ipcMain.on('set-driver', function (event, arg) {
+      if (arg == 'search')
+        driverWindow = browserWindow;
+      else if (arg == 'editor') {
+        driverWindow = editorWindow;
+  
+        //if (isDevMode) enableLiveReload();
+      }
+    });
+  
+    //IPC message for web loader
+  
+    ipcMain.on('automation-web-load', function (event, arg) {
+      hostWindow.webContents.send('automation-web-load', arg);
+      //hostWindow.webContents.loadURL(arg);
+    });
+  
+    ipcMain.on('automation-web-load-completed', function (event, arg) {
+      driverWindow.webContents.send('automation-web-load-completed', arg);
+      //hostWindow.webContents.loadURL(arg);
+    });
+  
+  
+    ipcMain.on('automation-web-action', function (event, arg) {
+      hostWindow.webContents.send('automation-web-action', arg);
+      //hostWindow.webContents.executeJavaScript(arg);
+    });
+  
+    ipcMain.on('automation-web-action-completed', function (event, arg) {
+      driverWindow.webContents.send('automation-web-action-completed', arg);
+      //hostWindow.webContents.loadURL(arg);
+    });
+  
+  
+    ipcMain.on('automation-web-input', function (event, arg) {
+      hostWindow.webContents.send('automation-web-input', arg);
+      //hostWindow.webContents.executeJavaScript(arg);
+    });
+  
+    ipcMain.on('automation-web-input-completed', function (event, arg) {
+      driverWindow.webContents.send('automation-web-input-completed', arg);
+      //hostWindow.webContents.loadURL(arg);
+    });
+  
+  
+    ///////////////////////////////////////////////////////////
+    // region 
+    ipcMain.on('element-highlighted', function (event, arg) {
+      driverWindow.webContents.send('element-highlighted', arg);
+      //hostWindow.webContents.loadURL(arg);
+    });
+  
+    globalShortcut.register('CommandOrControl+Shift+T', () => {
+      hostWindow.webContents.send('turn-element-highlight', true);
+    });
+    /////////////////////////////////////////////////
+  
+  
+    globalShortcut.register('CommandOrControl+Shift+Z', () => {
+      browserWindow.show();
+    });
+  
+    globalShortcut.register('CommandOrControl+Shift+P', () => {
+      browserWindow.webContents.executeJavaScript(`var autoweb = require('./autoweb');autoweb();`);
+    });
+
+
+
+
+
+
+
+
+
+
 
   return browserWindow;
 }
