@@ -1,6 +1,6 @@
 export default class Log {
 
-	info(msg: string) {
+	public static info(msg: string) {
 		console.log(`Automaz Info ${msg}`);
 	}
 

@@ -32,7 +32,7 @@ import Engine from "../../types/Engine";
 
 import mazolution from "./Mazolution.vue";
 
-const { BrowserWindow } = require('@electron/remote')
+//const { BrowserWindow } = require('@electron/remote')
 const ipc = require("electron").ipcRenderer;
 const _ = require("underscore");
 
@@ -68,7 +68,7 @@ export default {
         const ipcRenderer = require("electron").ipcRenderer;
         ipcRenderer.send("set-driver", "editor");
 
-        BrowserWindow.getFocusedWindow().hide();
+        //BrowserWindow.getFocusedWindow().hide();
 
         var result = null;
         //todo: check environment first

@@ -2,8 +2,7 @@
 import { AutomationStep } from "./AutomationStep";
 import Log from  "./log";
 
-export default class Engine { 
-	log = new Log();
+export default class Engine {  
 
 	engineContext = {}
 
@@ -15,9 +14,9 @@ export default class Engine {
 
 	};
 
-	executeTask(automationStep:AutomationStep, engine, stepCompleted) {
+	executeTask(automationStep:AutomationStep, engine : Engine, stepCompleted) {
 		// this is executed in Queee's context
-		log.info(`Evaluation Step ${automationStep.number} started`);
+		Log.info(`Evaluation Step ${automationStep.number} started`);
 		try {
 			engine.evalInContext(automationStep.automationScript,
 				{
@@ -26,19 +25,18 @@ export default class Engine {
 				});
 
 			//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${engine.engineContext.result}`); 
-			log.info(`Evaluation Step ${automationStep.number} execute successfully!`);
+			Log.info(`Evaluation Step ${automationStep.number} execute successfully!`);
 			//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${this.result}`); 
 
 		} catch (e) {
-
-			log.info(`Evaluation Step ${automationStep.number} execute failed with exception: ${e}`);
-			stepCompleted(e);
+			Log.info(`Evaluation Step ${automationStep.number} execute failed with exception: ${e}`);
+			//stepCompleted(e);
 
 		}
 		finally {
 		}
 		if (automationStep.waitForStep) { }
-		else stepCompleted(null);
+		//else stepCompleted(null);
 
 	};
 
