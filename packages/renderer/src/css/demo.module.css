@@ -1,5 +1,14 @@
 /* Demo */
 
+body{
+  background-color: black;
+}
+
+.Search {
+
+  font-size: 24px;;
+}
+
 .demo:first-of-type {
   margin-top: 2rem;
 }

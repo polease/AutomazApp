@@ -5,7 +5,7 @@ import Search from "/@/components/Search.vue";
 </script>
 
 <template>
-  <div>
+  <div class="Search">
     app 
     app test
     <search />

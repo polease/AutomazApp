@@ -1,44 +1,51 @@
 <template>
   <div id="dd">
     hello here
-    <div class="demo-controls">
-      <input
-        class="demo-input"
-        id="search"
-        ref="search"
-        aria-label="Click copy"
-        @keyup="find"
-        @keyup.enter="execute"
-        v-model="problemHint"
-        v-focus
-        placeholder="what problem you want to solve?."
-      />
-    </div>
+
+
+    <v-autocomplete
+      v-model="selectedSolution"
+      v-model:search-input="problemHint"
+      :items="matchingProblems"
+      :item-text="(item) => item.problemStatement.description"
+      :item-value="(item) => item.id"
+      label="what problem you want to solve?"
+      id="search"
+      ref="search"
+      prepend-icon="mdi-database-search"
+      @keydown.enter="execute"
+      @update:search="find"
+      v-focus
+    >
+    </v-autocomplete>
+
     <div class="matching-problems" v-for="problem in matchingProblems">
       <div>{{ problem.problemStatement.title }}</div>
     </div>
 
     <div class="system-info">
       {{ executionInfo }}
-      <mazolution ref="mazolution"></mazolution> 
+      <mazolution ref="mazolution"></mazolution>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import _ from "underscore";
+import {ref, computed} from 'vue'
+
+
 import type { ProblemSolution, ProblemSearchInfo } from "../../types/Solution";
 import log from "../../types/log";
 import Engine from "../../types/Engine";
-
 import mazolution from "./Mazolution.vue";
+import SolutionDB from "./../../types/SolutionDB"; 
 
-//const { BrowserWindow } = require('@electron/remote')
-const ipc = require("electron").ipcRenderer;
-const _ = require("underscore");
 
 var engine = new Engine();
 
 export default {
+  
   data() {
     return {
       problemHint: "",
@@ -52,9 +59,25 @@ export default {
   },
 
   directives: { focus },
+  watch: {
+    selectedSolution(val) {
+      console.log(val);
+      //this.find();
+    },
+    problemHint(val) {
+      console.log(val);
+      //this.find();
+    },
+  },
+  mounted() {
+    this.matchingProblems = SolutionDB.find(this.problemHint);
+    console.log("created" + this.matchingProblems.length);
+  },
   methods: {
     find() {
-      this.matchingProblems = this.$refs.mazolution.find(this.problemHint);
+      console.info("find" + this.problemHint);
+      this.matchingProblems = SolutionDB.find(this.problemHint);
+      console.log("find count " + this.matchingProblems.length);
       if (
         this.matchingProblems &&
         this.matchingProblems.length > 0 &&
@@ -63,10 +86,10 @@ export default {
         this.selectedSolution = this.matchingProblems[0].solution;
     },
     execute() {
+      console.info("execute" + this.selectedSolution);
       if (this.selectedSolution) {
         //switch driver
-        const ipcRenderer = require("electron").ipcRenderer;
-        ipcRenderer.send("set-driver", "editor");
+        //ipcRenderer.send("set-driver", "editor");
 
         //BrowserWindow.getFocusedWindow().hide();
 

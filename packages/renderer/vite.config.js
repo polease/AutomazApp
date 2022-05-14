@@ -1,9 +1,10 @@
 /* eslint-env node */
 
-import {chrome} from '../../.electron-vendors.cache.json';
-import {join} from 'path';
-import {builtinModules} from 'module';
+import { chrome } from '../../.electron-vendors.cache.json';
+import { join } from 'path';
+import { builtinModules } from 'module';
 import vue from '@vitejs/plugin-vue';
+import vuetify from '@vuetify/vite-plugin'
 
 const PACKAGE_ROOT = __dirname;
 
@@ -19,7 +20,10 @@ const config = {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
     },
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    vuetify({ autoImport: true })
+  ],
   base: '',
   server: {
     fs: {
@@ -37,7 +41,7 @@ const config = {
       input: {
         index: join(PACKAGE_ROOT, 'index.html'),
         editor: join(PACKAGE_ROOT, 'editor.html'),
-        host : join(PACKAGE_ROOT, 'host.html'),
+        host: join(PACKAGE_ROOT, 'host.html'),
       },
 
       external: [

@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
 import { join } from 'path';
-import { URL } from 'url'; 
+import { URL } from 'url';  
 
 
 async function createWindow() {
@@ -11,7 +11,7 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
-      preload: join(__dirname, '../../preload/dist/index.cjs'),
+      //preload: join(__dirname, '../../preload/dist/index.cjs'),
     },
   });
 
@@ -38,6 +38,11 @@ async function createWindow() {
     ? import.meta.env.VITE_DEV_SERVER_URL
     : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
 
+    console.info(pageUrl);
+
+    //const pageUrl =  new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
+
+  
 
   await browserWindow.loadURL(pageUrl);
 
@@ -54,11 +59,11 @@ async function createWindow() {
       height: 600,
       x: 0,
       y: 0,
-      /*
+      
       webPreferences: { 
-        preload: path.join(__dirname, 'injection.js')
+        nodeIntegration: true
       }
-      */
+      
     });
     await hostWindow.loadURL(hostPageUrl);
 
@@ -76,12 +81,11 @@ async function createWindow() {
       width: 400,
       height: 600,
       x: 800,
-      y: 0,
-      /*
+      y: 0, 
       webPreferences: { 
-        preload: path.join(__dirname, 'injection.js')
+        nodeIntegration: true
       }
-      */
+      
     });
     await editorWindow.loadURL(editorPageUrl); 
 

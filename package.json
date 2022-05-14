@@ -27,7 +27,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.12.1",
     "@vitejs/plugin-vue": "2.2.2",
-    "@vue/test-utils": "2.0.0-rc.18",
+    "@vue/test-utils": "2.0.0-rc.18", 
     "cross-env": "7.0.3",
     "electron": "17.1.0",
     "electron-builder": "22.14.13",
@@ -36,8 +36,8 @@
     "eslint-plugin-vue": "8.5.0",
     "happy-dom": "2.41.0",
     "nano-staged": "0.6.0",
-    "playwright": "1.19.1",
-    "simple-git-hooks": "2.7.0",
+    "playwright": "1.19.1", 
+    "simple-git-hooks": "2.7.0", 
     "typescript": "4.5.5",
     "vite": "2.8.4",
     "vitest": "0.5.4",
@@ -45,10 +45,12 @@
   },
   "dependencies": {
     "@electron/remote": "^2.0.8",
+    "@vuetify/vite-plugin": "^1.0.0-alpha.10",
     "d3": "^7.4.4",
     "electron-updater": "4.6.5",
     "monaco-editor": "^0.33.0",
     "underscore": "^1.13.3",
-    "vue": "3.2.31"
+    "vue": "3.2.31",
+    "vuetify": "^3.0.0-beta.1"
   }
 }
