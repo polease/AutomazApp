@@ -2,7 +2,6 @@
   <div id="dd">
     hello here
 
-
     <!-- <v-autocomplete
       v-model="selectedSolution"
       v-model:search-input="problemHint"
@@ -18,63 +17,61 @@
       v-focus
     >
     </v-autocomplete> -->
-  <v-text-field
-            v-model="problemHint"
-            :prepend-icon="icon"
-            maxlength="100"
-            hint="Searching for solution created by smart people around you..."
-            label="what problem you want to solve?"
-             @keydown.enter="execute"
-          ></v-text-field>
-<v-card
-    class="mx-auto"
- 
-    tile
-  >
-  <v-list-item lines="two"  v-for="solution in matchingSolutions">
-      <v-list-item-header> 
-
-     <v-list-item-title>{{ solution.fixingProblem.title }}</v-list-item-title>
-        <v-list-item-subtitle>{{ solution.solutionOverview }}</v-list-item-subtitle>
-      </v-list-item-header>
-    </v-list-item>
-
-  </v-card>
+    <v-text-field
+      v-model="problemHint"
+      :prepend-icon="icon"
+      maxlength="100"
+      hint="Searching for solution created by smart people around you..."
+      label="what problem you want to solve?"
+      @keydown.enter="execute"
+    ></v-text-field>
+    <v-card class="mx-auto" tile>
+      <v-list-item lines="two" v-for="solution in matchingSolutions">
+        <v-list-item-header>
+          <v-list-item-title>{{
+            solution.fixingProblem.title
+          }}</v-list-item-title>
+          <v-list-item-subtitle>{{
+            solution.solutionOverview
+          }}</v-list-item-subtitle>
+        </v-list-item-header>
+      </v-list-item>
+    </v-card>
 
     <div class="system-info">
       {{ executionInfo }}
-      <mazolution ref="mazolution"></mazolution>
+      <mazolution
+        ref="mazolution"
+        :problemSolution="selectedSolution"
+      ></mazolution>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import _ from "underscore";
-import {ref, computed} from 'vue'
-
+import { ref, computed } from "vue";
 
 import type { ProblemSolution, ProblemSearchInfo } from "../../types/Solution";
 import log from "../../types/log";
 import Mazolution from "./Mazolution.vue";
-import SolutionDB from "./../../types/SolutionDB"; 
-
+import SolutionDB from "./../../types/SolutionDB";
 
 export default {
-  
   data() {
     return {
       problemHint: "",
       matchingSolutions: [],
       selectedSolution: null,
-      executionInfo: null
+      problemSolutionToEngine: null,
     };
   },
-  setup:()=>{
-      const mazolution = ref<InstanceType<typeof Mazolution>>();
-      return{
-        mazolution
-      }
-    },
+  setup: () => {
+    const mazolution = ref<InstanceType<typeof Mazolution>>();
+    return {
+      mazolution,
+    };
+  },
   components: {
     mazolution: Mazolution,
   },
@@ -90,8 +87,7 @@ export default {
       this.find();
     },
   },
-  mounted() { 
-  },
+  mounted() {},
   methods: {
     find() {
       console.info("find" + this.problemHint);
@@ -107,9 +103,7 @@ export default {
     execute() {
       console.info("execute" + this.selectedSolution);
       if (this.selectedSolution) {
-        this.mazolution.problemSolution = this.selectedSolution;
         this.mazolution.execute();
-        
       }
     },
   },

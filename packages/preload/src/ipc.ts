@@ -10,6 +10,6 @@ function setDriver(driverWindow : string) {
 }
 
 // Export for types in contracts.d.ts
-export const driver = {setDriver} as const;
+export const ipc = {setDriver} as const;
 
-exposeInMainWorld('driver', driver);
+exposeInMainWorld('ipc', ipc);

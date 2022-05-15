@@ -4,47 +4,40 @@
   </div>
 </template>
 
-<script lang="ts" >
-
-import _  from "underscore";  
+<script lang="ts">
+import _ from "underscore";
 import Engine from "../../types/Engine";
-import type {ProblemSolution} from "../../types/Solution";
-var engine = new Engine();
- 
+import type { ProblemSolution } from "../../types/Solution";
+import "../../../renderer/src/index";
 
+var engine = new Engine();
 
 export default {
   methods: {
-    execute : function(){
-      window.nodeCrypto.sha256sum('data');
+    execute: function () {
       //switch driver
-        window.driver.send("set-driver", "editor");
-       
-        //BrowserWindow.getFocusedWindow().hide();
+      window.api.send("set-driver", "editor");
 
-        var result = null;
-        //todo: check environment first
-        _.each(
-          this.selectedSolution.steps,
-          function (step, index) {
+      //BrowserWindow.getFocusedWindow().hide();
 
-            engine.execute(step);
-            //this.executionInfo = result;
-          },
-          this
-        );
-    }
-    
+      var result = null;
+      //todo: check environment first
+      _.each(
+        this.problemSolution.steps,
+        function (step, index) {
+          engine.execute(step);
+          //this.executionInfo = result;
+        },
+        this
+      );
+    },
   },
-  expose:['execute'],
+  expose: ["execute"],
   props: {
-    problemSolution: {type: Object as () => ProblemSolution,}
+    problemSolution: { type: Object as () => ProblemSolution },
   },
   data() {
-    return {
-      problemSolution : null,
-
-    }
+    return {};
   },
 };
 </script>
