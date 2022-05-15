@@ -11,7 +11,7 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
-      //preload: join(__dirname, '../../preload/dist/index.cjs'),
+      preload: join(__dirname, '../../preload/dist/index.cjs'),
     },
   });
 
@@ -61,7 +61,8 @@ async function createWindow() {
       y: 0,
       
       webPreferences: { 
-        nodeIntegration: true
+        nodeIntegration: true,
+        preload: join(__dirname, '../../preload/dist/index.cjs'),
       }
       
     });
@@ -83,7 +84,8 @@ async function createWindow() {
       x: 800,
       y: 0, 
       webPreferences: { 
-        nodeIntegration: true
+        nodeIntegration: true,
+        preload: join(__dirname, '../../preload/dist/index.cjs'),
       }
       
     });

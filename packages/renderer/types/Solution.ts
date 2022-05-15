@@ -1,18 +1,13 @@
 
 
 
-export interface ProblemStatement {
-    title: string,
-    context: string,
-    block: string,
-    author: string,
 
-}
 
 export interface SolutionStep {
-    number: BigInteger, //2,
+    number: number, //2,
     name: string, // "get clipboard as @keyword",
     automation: string,
+    waitForStep? : boolean
 
     //     `
     //   const {clipboard} = require('electron')
@@ -20,21 +15,26 @@ export interface SolutionStep {
     // `,
 }
 
-export interface SolutionInfo {
-    solutionOverview: string, //"search selected text in google",
-    shortcutKeyBinding: string, // "Ctrl+Alt+1",
-    enviroment: [], //["automatwin", "chrome"],
-    steps: []
+export interface Problem{
+    problemID : string,
+    title: string, // where can i can find xxx
+    context? : string,
+    detail?: string, 
 }
-
 
 export interface ProblemSolution {
-    problem: ProblemStatement,
-    solution: SolutionInfo,
-
+    solutionId:string, //
+    solutionOverview: string, //"search selected text in google",
+    fixingProblem: Problem,
+    author?: string,
+    shortcutKeyBinding?: string, // "Ctrl+Alt+1",
+    enviroment?: string[], //["automatwin", "chrome"],
+    steps: SolutionStep[]
 }
+
+
 export interface ProblemSearchInfo {
-    problemHint?: string
-    matchingProblems?: ProblemSolution[],
-    selectedSolution: ProblemSolution
+    problemHint: string
+    matchingSolutions?: ProblemSolution[],
+    selectedSolution?: ProblemSolution
   }

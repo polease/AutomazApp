@@ -1,71 +1,69 @@
 
-import _  from "underscore";
+import _ from "underscore";
+import { ProblemSolution } from "./Solution";
 
 export default class SolutionDB {
-   public static find (keyword) {
-        return _.filter(this.allSolutions, function (ele) {
-          return ele.problemStatement.title.indexOf(keyword) >= 0; // TBE
+    public static find(keyword: string): ProblemSolution[] {
+        return _.filter(SolutionDB.allSolutions, function (ele) : ProblemSolution[] {
+            return ele.fixingProblem.title.indexOf(keyword) >= 0; // TBE
         });
-      }
-    public static allSolutions = [
+    }
+    public static allSolutions: ProblemSolution[] = [
         {
-            id: "0001",
-            problemStatement: {
+            solutionId: "0001",
+            solutionOverview: "search selected text in google",
+            shortcutKeyBinding: "Ctrl+Alt+1",
+            enviroment: ["automatwin", "chrome"],
+            fixingProblem: {
+                problemID: "0001",
                 title: "search selected text",
-                context: "",
-                block: "",
-                author: "linzhu",
+                context: ""
             },
-            solution: {
-                solutionOverview: "search selected text in google",
-                shortcutKeyBinding: "Ctrl+Alt+1",
-                enviroment: ["automatwin", "chrome"],
-                steps: [
-                    // {
-                    //   number: 1,
-                    //   name:"get selected text into clipboard",
-                    //   automation: `
-                    //    //alert("hello");
-                    //    var robot = require("robotjs");
-                    //    robot.keyTap("C","control");
-                    //   `
-                    // },
-                    {
-                        number: 2,
-                        name: "get clipboard as @keyword",
-                        automation: `
+            steps: [
+                // {
+                //   number: 1,
+                //   name:"get selected text into clipboard",
+                //   automation: `
+                //    //alert("hello");
+                //    var robot = require("robotjs");
+                //    robot.keyTap("C","control");
+                //   `
+                // },
+                {
+                    number: 2,
+                    name: "get clipboard as @keyword",
+                    automation: `
           const {clipboard} = require('electron')
           this.engineContext.result = clipboard.readText() 
         `,
-                    },
-                    {
-                        number: 3,
-                        name: "search google for @keyword",
-                        automation: `
+                },
+                {
+                    number: 3,
+                    name: "search google for @keyword",
+                    automation: `
           const {shell} = require('electron')
           shell.openExternal("https://www.google.com/search?q="+this.engineContext.result);
         `,
-                    },
-                ],
-            },
+                },
+            ],
+
         }, // #2
         {
-            id: "0002",
-            problemStatement: {
-                title: "capture screenshot",
-                solutionOverview: "search selected text in google",
-                shortcutKeyBinding: "Ctrl+Alt+1",
-                context: "",
-                block: "",
-                author: "linzhu",
+            solutionId: "0002",
+            fixingProblem: {
+                problemID: "0001",
+                title: "capture screen",
+                context: ""
             },
-            solution: {
-                enviroment: ["automatwin", "chrome"],
-                steps: [
-                    {
-                        number: 1,
-                        name: "capture image",
-                        automation: `
+            solutionOverview: "capture screen via screen",
+            shortcutKeyBinding: "Ctrl+Alt+1",
+            enviroment: ["automatwin", "chrome"],
+            author: "linzhu",
+            steps: [
+                {
+                    number: 1,
+                    name: "capture image",
+                    automation: `
          //alert("hello");
           
 
@@ -94,42 +92,40 @@ for (var y=0; y<height; y++) {
 
 jimg.write(path)
         `,
-                    },
-                    {
-                        number: 2,
-                        name: "save image to target path",
-                        automation: `
+                },
+                {
+                    number: 2,
+                    name: "save image to target path",
+                    automation: `
           //todo
         `,
-                    },
-                ],
-            },
+                },
+            ],
         }, // #2
         {
-            id: "0001",
-            problemStatement: {
-                title: "search selected text",
-                solutionOverview: "search selected text in google",
-                shortcutKeyBinding: "Ctrl+Alt+1",
-                context: "",
-                block: "",
-                author: "linzhu",
+            solutionId: "0002",
+            fixingProblem: {
+                problemID: "0001",
+                title: "move mouse screen",
+                context: ""
             },
-            solution: {
-                enviroment: ["automatwin", "chrome"],
-                steps: [
-                    {
-                        number: 1,
-                        name: "open chrome",
-                        automation: `
+            solutionOverview: "move mouse",
+            shortcutKeyBinding: "Ctrl+Alt+1",
+            enviroment: ["automatwin", "chrome"],
+            author: "linzhu",
+            steps: [
+                {
+                    number: 1,
+                    name: "open chrome",
+                    automation: `
           const {shell} = require('electron')
           shell.openExternal("http://yahoo.com");
         `,
-                    },
-                    {
-                        number: 2,
-                        name: "go to address bar",
-                        automation: `
+                },
+                {
+                    number: 2,
+                    name: "go to address bar",
+                    automation: `
         var robot = require("robotjs");
         //robot.keyTap("L","control");
 // Speed up the mouse.
@@ -146,36 +142,38 @@ y = height * Math.sin((twoPI * x) / width) + height;
 robot.moveMouse(x, y);
 }
         `,
-                    },
-                    {
-                        number: 3,
-                        name: "type @website",
-                        automation: "send @website",
-                    },
-                ],
-            },
+                },
+                {
+                    number: 3,
+                    name: "type @website",
+                    automation: "send @website",
+                },
+            ],
+
         }, // #2
         {
-            problemStatement: {
-                title: "search google <query>",
-                context: "",
-                block: "",
-                author: "linzhu",
+            solutionId: "0004",
+            fixingProblem: {
+                problemID: "0001",
+                title: "how to find xxx?",
+                context: ""
             },
-            solution: {
-                enviroment: ["electron"],
-                steps: [
-                    {
-                        number: 1,
-                        name: "search local",
-                        automation: ` 
+            solutionOverview: "search google <query>",
+            shortcutKeyBinding: "Ctrl+Alt+1",
+            enviroment: ["automatwin", "chrome"],
+            author: "linzhu",
+            steps: [
+                {
+                    number: 1,
+                    name: "search local",
+                    automation: ` 
 
           `,
-                    },
-                    {
-                        number: 1,
-                        name: "search ",
-                        automation: `
+                },
+                {
+                    number: 1,
+                    name: "search ",
+                    automation: `
           
       const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 
@@ -185,25 +183,27 @@ robot.moveMouse(x, y);
 
           
           `,
-                    },
-                ],
-            },
+                },
+            ],
+
         }, // // #2
         {
-            problemStatement: {
+            solutionId: "0004",
+            fixingProblem: {
+                problemID: "0001",
                 title: "open links in selected area",
-                context: "",
-                block: "",
-                author: "linzhu",
+                context: ""
             },
-            solution: {
-                enviroment: ["electron"],
-                steps: [
-                    {
-                        number: 1,
-                        name: "copy selected area to clipboard",
-                        waitForStep: true,
-                        automation: `
+            solutionOverview: "open links in selected area",
+            shortcutKeyBinding: "Ctrl+Alt+1",
+            enviroment: ["automatwin", "chrome"],
+            author: "linzhu",
+            steps: [
+                {
+                    number: 1,
+                    name: "copy selected area to clipboard",
+                    waitForStep: true,
+                    automation: `
           const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 
           autoweb.loadURL("https://www.google.com"); 
@@ -219,19 +219,19 @@ robot.moveMouse(x, y);
           autoweb.wait(2000); 
           autoweb.done(this.stepCompleted);
           `,
-                    },
-                    {
-                        number: 2,
-                        name: "get clipboard",
-                        automation: `
+                },
+                {
+                    number: 2,
+                    name: "get clipboard",
+                    automation: `
           const {clipboard} = require('electron')
           this.engineContext.result = clipboard.readHTML() 
           `,
-                    },
-                    {
-                        number: 3,
-                        name: "get links from clipboard content",
-                        automation: ` 
+                },
+                {
+                    number: 3,
+                    name: "get links from clipboard content",
+                    automation: ` 
           var cheerio = require('cheerio');   
           var $ = cheerio.load(this.engineContext.result); 
 
@@ -244,18 +244,18 @@ robot.moveMouse(x, y);
           alert(links);
 
           `,
-                    },
-                    {
-                        number: 4,
-                        name: "avanade",
-                        automation: ` 
+                },
+                {
+                    number: 4,
+                    name: "avanade",
+                    automation: ` 
          //put your automation script here
         const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 
           autoweb.loadURL("https://at.avanade.com"); 
           autoweb.wait(1000); 
-          autoweb.type("#cred_userid_inputtext","lin.a.zhu@avanade.com");
-          autoweb.type("#cred_password_inputtext","cgclient!46");
+          autoweb.type("#cred_userid_inputtext","lin.a.zhu@test.com");
+          
          autoweb.click("#cred_sign_in_button"); 
           autoweb.wait(2000); 
           autoweb.click("#aad_account_tile"); 
@@ -263,64 +263,9 @@ robot.moveMouse(x, y);
           autoweb.done(this.stepCompleted);
 
           `,
-                    },
-                ],
-            },
-        }, // // #3
-        {
-            problemStatement: {
-                title: "download",
-                context: "",
-                block: "",
-                author: "linzhu",
-            },
-            solution: {
-                enviroment: ["electron"],
-                steps: [
-                    {
-                        number: 1,
-                        name: "open google",
-                        automation: ` 
+                },
+            ],
 
-       var Application = require('spectron').Application
-var assert = require('assert')
-const path = require('path')
-
-// Path to Electron
-var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
-if (process.platform === 'win32') electronPath += '.cmd'
-
-// Path to your application
-var appPath = path.join(__dirname, 'bin', 'package')
-
-var app = new Application({
-path: electronPath,
-args: [appPath]
-}) 
-
-app.start().then(function () {
-// Check if the window is visible
-return app.browserWindow.isVisible()
-}).then(function (isVisible) {
-// Verify the window is visible
-assert.equal(isVisible, true)
-}).then(function () {
-// Get the window's title
-return app.client.getTitle()
-}).then(function (title) {
-// Verify the window's title
-assert.equal(title, 'My App')
-}).then(function () {
-// Stop the application
-return app.stop()
-}).catch(function (error) {
-// Log any failures
-console.error('Test failed', error.message)
-})
-          `,
-                    },
-                ],
-            },
-        }, //
+        }, // // 
     ]
 };

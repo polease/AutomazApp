@@ -3,12 +3,12 @@
     hello here
 
 
-    <v-autocomplete
+    <!-- <v-autocomplete
       v-model="selectedSolution"
       v-model:search-input="problemHint"
-      :items="matchingProblems"
-      :item-text="(item) => item.problemStatement.description"
-      :item-value="(item) => item.id"
+      :items="matchingSolutions"
+      item-text="solutionOverview"
+      item-value="solutionId"
       label="what problem you want to solve?"
       id="search"
       ref="search"
@@ -17,11 +17,29 @@
       @update:search="find"
       v-focus
     >
-    </v-autocomplete>
+    </v-autocomplete> -->
+  <v-text-field
+            v-model="problemHint"
+            :prepend-icon="icon"
+            maxlength="100"
+            hint="Searching for solution created by smart people around you..."
+            label="what problem you want to solve?"
+             @keydown.enter="execute"
+          ></v-text-field>
+<v-card
+    class="mx-auto"
+ 
+    tile
+  >
+  <v-list-item lines="two"  v-for="solution in matchingSolutions">
+      <v-list-item-header> 
 
-    <div class="matching-problems" v-for="problem in matchingProblems">
-      <div>{{ problem.problemStatement.title }}</div>
-    </div>
+     <v-list-item-title>{{ solution.fixingProblem.title }}</v-list-item-title>
+        <v-list-item-subtitle>{{ solution.solutionOverview }}</v-list-item-subtitle>
+      </v-list-item-header>
+    </v-list-item>
+
+  </v-card>
 
     <div class="system-info">
       {{ executionInfo }}
@@ -37,25 +55,28 @@ import {ref, computed} from 'vue'
 
 import type { ProblemSolution, ProblemSearchInfo } from "../../types/Solution";
 import log from "../../types/log";
-import Engine from "../../types/Engine";
-import mazolution from "./Mazolution.vue";
+import Mazolution from "./Mazolution.vue";
 import SolutionDB from "./../../types/SolutionDB"; 
 
-
-var engine = new Engine();
 
 export default {
   
   data() {
     return {
       problemHint: "",
-      matchingProblems: [],
+      matchingSolutions: [],
       selectedSolution: null,
-      executionInfo: null,
+      executionInfo: null
     };
   },
+  setup:()=>{
+      const mazolution = ref<InstanceType<typeof Mazolution>>();
+      return{
+        mazolution
+      }
+    },
   components: {
-    mazolution: mazolution,
+    mazolution: Mazolution,
   },
 
   directives: { focus },
@@ -66,43 +87,29 @@ export default {
     },
     problemHint(val) {
       console.log(val);
-      //this.find();
+      this.find();
     },
   },
-  mounted() {
-    this.matchingProblems = SolutionDB.find(this.problemHint);
-    console.log("created" + this.matchingProblems.length);
+  mounted() { 
   },
   methods: {
     find() {
       console.info("find" + this.problemHint);
-      this.matchingProblems = SolutionDB.find(this.problemHint);
-      console.log("find count " + this.matchingProblems.length);
+      this.matchingSolutions = SolutionDB.find(this.problemHint);
+      console.log("find count " + this.matchingSolutions.length);
       if (
-        this.matchingProblems &&
-        this.matchingProblems.length > 0 &&
-        this.matchingProblems[0].solution
+        this.matchingSolutions &&
+        this.matchingSolutions.length > 0 &&
+        this.matchingSolutions[0].steps
       )
-        this.selectedSolution = this.matchingProblems[0].solution;
+        this.selectedSolution = this.matchingSolutions[0];
     },
     execute() {
       console.info("execute" + this.selectedSolution);
       if (this.selectedSolution) {
-        //switch driver
-        //ipcRenderer.send("set-driver", "editor");
-
-        //BrowserWindow.getFocusedWindow().hide();
-
-        var result = null;
-        //todo: check environment first
-        _.each(
-          this.selectedSolution.steps,
-          function (step, index) {
-            engine.execute(step);
-            //this.executionInfo = result;
-          },
-          this
-        );
+        this.mazolution.problemSolution = this.selectedSolution;
+        this.mazolution.execute();
+        
       }
     },
   },
