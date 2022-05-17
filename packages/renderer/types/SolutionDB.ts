@@ -23,7 +23,7 @@ export default class SolutionDB {
                 // {
                 //   number: 1,
                 //   name:"get selected text into clipboard",
-                //   automation: `
+                //   automationScript: `
                 //    //alert("hello");
                 //    var robot = require("robotjs");
                 //    robot.keyTap("C","control");
@@ -32,7 +32,7 @@ export default class SolutionDB {
                 {
                     number: 2,
                     name: "get clipboard as @keyword",
-                    automation: `
+                    automationScript: `
           const {clipboard} = require('electron')
           this.engineContext.result = clipboard.readText() 
         `,
@@ -40,7 +40,7 @@ export default class SolutionDB {
                 {
                     number: 3,
                     name: "search google for @keyword",
-                    automation: `
+                    automationScript: `
           const {shell} = require('electron')
           shell.openExternal("https://www.google.com/search?q="+this.engineContext.result);
         `,
@@ -63,7 +63,7 @@ export default class SolutionDB {
                 {
                     number: 1,
                     name: "capture image",
-                    automation: `
+                    automationScript: `
          //alert("hello");
           
 
@@ -96,7 +96,7 @@ jimg.write(path)
                 {
                     number: 2,
                     name: "save image to target path",
-                    automation: `
+                    automationScript: `
           //todo
         `,
                 },
@@ -117,7 +117,7 @@ jimg.write(path)
                 {
                     number: 1,
                     name: "open chrome",
-                    automation: `
+                    automationScript: `
           const {shell} = require('electron')
           shell.openExternal("http://yahoo.com");
         `,
@@ -125,7 +125,7 @@ jimg.write(path)
                 {
                     number: 2,
                     name: "go to address bar",
-                    automation: `
+                    automationScript: `
         var robot = require("robotjs");
         //robot.keyTap("L","control");
 // Speed up the mouse.
@@ -146,7 +146,7 @@ robot.moveMouse(x, y);
                 {
                     number: 3,
                     name: "type @website",
-                    automation: "send @website",
+                    automationScript: "send @website",
                 },
             ],
 
@@ -166,14 +166,14 @@ robot.moveMouse(x, y);
                 {
                     number: 1,
                     name: "search local",
-                    automation: ` 
+                    automationScript: ` 
 
           `,
                 },
                 {
                     number: 1,
                     name: "search ",
-                    automation: `
+                    automationScript: `
           
       const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 
@@ -203,7 +203,7 @@ robot.moveMouse(x, y);
                     number: 1,
                     name: "copy selected area to clipboard",
                     waitForStep: true,
-                    automation: `
+                    automationScript: `
           const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 
           autoweb.loadURL("https://www.google.com"); 
@@ -223,7 +223,7 @@ robot.moveMouse(x, y);
                 {
                     number: 2,
                     name: "get clipboard",
-                    automation: `
+                    automationScript: `
           const {clipboard} = require('electron')
           this.engineContext.result = clipboard.readHTML() 
           `,
@@ -231,7 +231,7 @@ robot.moveMouse(x, y);
                 {
                     number: 3,
                     name: "get links from clipboard content",
-                    automation: ` 
+                    automationScript: ` 
           var cheerio = require('cheerio');   
           var $ = cheerio.load(this.engineContext.result); 
 
@@ -248,7 +248,7 @@ robot.moveMouse(x, y);
                 {
                     number: 4,
                     name: "avanade",
-                    automation: ` 
+                    automationScript: ` 
          //put your automation script here
         const AutoWeb = require('./autoweb');
           var autoweb = new AutoWeb(); 

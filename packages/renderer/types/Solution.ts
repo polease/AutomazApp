@@ -6,7 +6,7 @@
 export interface SolutionStep {
     number: number, //2,
     name: string, // "get clipboard as @keyword",
-    automation: string,
+    automationScript: string,
     waitForStep? : boolean
 
     //     `

@@ -8,7 +8,7 @@
 import _ from "underscore";
 import Engine from "../../types/Engine";
 import type { ProblemSolution } from "../../types/Solution";
-import "../../../renderer/src/index";
+import "../../../renderer/src/index"; 
 
 var engine = new Engine();
 
@@ -17,6 +17,10 @@ export default {
     execute: function () {
       //switch driver
       window.api.send("set-driver", "editor");
+
+      //window.autoweb.send()
+          window.autoWeb.loadURL("http://www.baidu.com");
+          //window.autoweb.wait(2000);
 
       //BrowserWindow.getFocusedWindow().hide();
 

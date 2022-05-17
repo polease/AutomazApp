@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';  
+import AutoWebProxy from './AutoWebProxy'; 
 
 
 async function createWindow() {
@@ -96,7 +97,9 @@ async function createWindow() {
 
     let driverWindow = browserWindow;
     let busWindow = engineWindow;
+
   
+   
   
     ipcMain.on('set-driver', function (event, arg) {
       if (arg == 'search')
@@ -107,13 +110,12 @@ async function createWindow() {
         //if (isDevMode) enableLiveReload();
       }
     });
+   
+    // Setup AutoWeb
+    let autoWebProxy:AutoWebProxy = new AutoWebProxy(engineWindow);
+    autoWebProxy.setup();
   
-    //IPC message for web loader
-  
-    ipcMain.on('automation-web-load', function (event, arg) {
-      engineWindow.webContents.send('automation-web-load', arg);
-      //engineWindow.webContents.loadURL(arg);
-    });
+    
   
     ipcMain.on('automation-web-load-completed', function (event, arg) {
       driverWindow.webContents.send('automation-web-load-completed', arg);

@@ -1,12 +1,12 @@
 
-import { AutomationStep } from "./AutomationStep";
+import { SolutionStep } from "./Solution";
 import Log from  "./log";
 
 export default class Engine {  
 
 	engineContext = {}
 
-	async execute(automationStep:AutomationStep) {
+	async execute(automationStep:SolutionStep) {
 		if(automationStep.waitForStep)
 			await this.executeTask(automationStep, this);
 		else
@@ -14,7 +14,7 @@ export default class Engine {
 
 	};
 
-	executeTask(automationStep:AutomationStep, engine : Engine, stepCompleted) {
+	executeTask(automationStep:SolutionStep, engine : Engine, stepCompleted) {
 		// this is executed in Queee's context
 		Log.info(`Evaluation Step ${automationStep.number} started`);
 		try {

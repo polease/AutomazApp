@@ -6,3 +6,4 @@ import './nodeCrypto';
 import './versions';
 import './ipc';
 import './api';
+import './autoWeb';

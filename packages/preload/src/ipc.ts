@@ -2,8 +2,7 @@ import {type BinaryLike, createHash} from 'crypto';
 import { ipcRenderer } from 'electron';
 import {exposeInMainWorld} from './exposeInMainWorld';
 
-
-
+ 
 
 function setDriver(driverWindow : string) {
   ipcRenderer.send("set-driver", driverWindow);
