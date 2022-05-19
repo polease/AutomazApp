@@ -41,7 +41,7 @@ const config = {
       input: {
         index: join(PACKAGE_ROOT, 'index.html'),
         editor: join(PACKAGE_ROOT, 'editor.html'),
-        host: join(PACKAGE_ROOT, 'host.html'),
+        host: join(PACKAGE_ROOT, 'engineSandbox.html'),
       },
 
       external: [

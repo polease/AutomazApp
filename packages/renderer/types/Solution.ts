@@ -7,7 +7,9 @@ export interface SolutionStep {
     number: number, //2,
     name: string, // "get clipboard as @keyword",
     automationScript: string,
-    waitForStep? : boolean
+    waitForStep? : boolean,
+    delayStartMilliseconds? : number,
+    delayEndMilliseconds? : number,
 
     //     `
     //   const {clipboard} = require('electron')

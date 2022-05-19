@@ -5,7 +5,7 @@ import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
 export default class AutoWebProxy {
 
     public win?: BrowserWindow; 
-    public documentLoaded? : (e:Electron.Event, kill:boolean) => void;
+   // public documentLoaded? : (e:Electron.Event, kill:boolean) => void;
 
     constructor(w: BrowserWindow) {
         this.win = w;
@@ -14,15 +14,29 @@ export default class AutoWebProxy {
    
     public setup(){
         let self = this;
-        ipcMain.on('auto-web-loadURL', function (event, arg) {
-            self.loadURL(arg);
+        ipcMain.handle('auto-web-loadURL', async function (event, arg) {
+            await self.loadURL(arg);
+          });
+
+
+          ipcMain.on('auto-web-inputText', function (event, arg) {
+            self.inputText(arg);
           });
     }
 
-    public  loadURL(url: string) {
-        if(this.documentLoaded)
-            this.win?.webContents.addListener("did-finish-load", this.documentLoaded);
-        this.win?.webContents.loadURL(url);
+    public async  loadURL(url: string) {
+        await this.win?.webContents.loadURL(url);
+    }
+
+
+    public  inputText(arg : {locator:string, text:string}) {
+
+        const locator = arg.locator;
+        const text = arg.text;
+
+        const script = `$("${locator}").value = "${text}";`
+        //const script = "alert('hello')";
+        this.win?.webContents.executeJavaScript(script);
     }
 
    

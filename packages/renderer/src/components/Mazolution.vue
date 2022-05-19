@@ -19,7 +19,7 @@ export default {
       window.api.send("set-driver", "editor");
 
       //window.autoweb.send()
-          window.autoWeb.loadURL("http://www.baidu.com");
+      window.autoWeb.loadURL("http://www.baidu.com");
           //window.autoweb.wait(2000);
 
       //BrowserWindow.getFocusedWindow().hide();

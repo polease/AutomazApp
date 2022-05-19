@@ -1,6 +1,7 @@
 
 import { SolutionStep } from "./Solution";
 import Log from  "./log";
+import { sleep } from "./util";
 
 export default class Engine {  
 
@@ -14,15 +15,15 @@ export default class Engine {
 
 	};
 
-	executeTask(automationStep:SolutionStep, engine : Engine, stepCompleted) {
+	async executeTask(automationStep:SolutionStep, engine : Engine) {
+
+		if(automationStep.delayStartMilliseconds)
+			sleep(automationStep.delayStartMilliseconds);
+
 		// this is executed in Queee's context
-		Log.info(`Evaluation Step ${automationStep.number} started`);
+		Log.info(`Evaluation Step ${automationStep.number} started, waitForStep ${automationStep.waitForStep}`);
 		try {
-			engine.evalInContext(automationStep.automationScript,
-				{
-					engineContext: engine.engineContext,
-					stepCompleted: stepCompleted,
-				});
+			engine.evalInContext(automationStep.automationScript,engine.engineContext);
 
 			//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${engine.engineContext.result}`); 
 			Log.info(`Evaluation Step ${automationStep.number} execute successfully!`);
@@ -34,9 +35,10 @@ export default class Engine {
 
 		}
 		finally {
-		}
-		if (automationStep.waitForStep) { }
-		//else stepCompleted(null);
+		} 
+
+		if(automationStep.delayEndMilliseconds)
+			sleep(automationStep.delayEndMilliseconds);
 
 	};
 

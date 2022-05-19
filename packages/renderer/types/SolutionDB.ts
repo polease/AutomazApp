@@ -4,10 +4,12 @@ import { ProblemSolution } from "./Solution";
 
 export default class SolutionDB {
     public static find(keyword: string): ProblemSolution[] {
-        return _.filter(SolutionDB.allSolutions, function (ele) : ProblemSolution[] {
-            return ele.fixingProblem.title.indexOf(keyword) >= 0; // TBE
+        return _.filter(SolutionDB.allSolutions, function (ele :ProblemSolution )  {
+            return ele.fixingProblem.title.indexOf(keyword) >= 0 || ele.solutionOverview.indexOf(keyword) >= 0; // TBE
         });
     }
+ 
+
     public static allSolutions: ProblemSolution[] = [
         {
             solutionId: "0001",
@@ -158,7 +160,7 @@ robot.moveMouse(x, y);
                 title: "how to find xxx?",
                 context: ""
             },
-            solutionOverview: "search google <query>",
+            solutionOverview: "search bing <query>",
             shortcutKeyBinding: "Ctrl+Alt+1",
             enviroment: ["automatwin", "chrome"],
             author: "linzhu",
@@ -166,20 +168,19 @@ robot.moveMouse(x, y);
                 {
                     number: 1,
                     name: "search local",
+                    waitForStep: true,
+                    delayEndMilliseconds:2000,
                     automationScript: ` 
-
+                    window.autoWeb.loadURL("http://www.bing.com");
           `,
                 },
                 {
-                    number: 1,
+                    number: 2,
                     name: "search ",
                     automationScript: `
+           
           
-      const AutoWeb = require('./autoweb');
-          var autoweb = new AutoWeb(); 
-          autoweb.loadURL("http://insite.local.com");
-          autoweb.wait(2000);
-          autoweb.type("input[name='criteria']","hello");
+          window.autoWeb.inputText("input[name='q']","hello");
 
           
           `,

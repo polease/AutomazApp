@@ -29,16 +29,20 @@ import { exposeInMainWorld } from './exposeInMainWorld';
 
 
 
-function loadURL(url: string) {
-    ipcRenderer.send('auto-web-loadURL', url);
+async function  loadURL(url: string) {
+    await ipcRenderer.invoke('auto-web-loadURL', url);
 };
 
 function typeText(text: string) {
     ipcRenderer.send('auto-web-sendInputEvent', { type: 'keyDown', keyCode: text });
 };
 
+function inputText(locator: string, text: string) {
+    ipcRenderer.send('auto-web-inputText', { locator: locator, text: text });
+};
+
 // Export for types in contracts.d.ts
-export const autoWeb = { loadURL } as const;
+export const autoWeb = { loadURL,inputText } as const;
 
 
 

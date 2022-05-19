@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
+import { BrowserWindow, ipcMain, globalShortcut, session } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';  
 import AutoWebProxy from './AutoWebProxy'; 
@@ -52,7 +52,7 @@ async function createWindow() {
    * Vite dev server for development.
    * `file://../renderer/index.html` for production and test
    */
-  const hostPageUrl =  new URL('../renderer/dist/host.html', 'file://' + __dirname).toString();
+  const hostPageUrl =  new URL('../renderer/dist/engineSandbox.html', 'file://' + __dirname).toString();
 
   const engineWindow = new BrowserWindow(
     {
@@ -62,12 +62,22 @@ async function createWindow() {
       y: 0,
       
       webPreferences: { 
-        //nodeIntegration: true,
+        //nodeIntegration: true, 
         preload: join(__dirname, '../../preload/dist/index.cjs'),
       }
       
     });
     await engineWindow.loadURL(hostPageUrl);
+ 
+
+session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  callback({
+    responseHeaders: {
+      ...details.responseHeaders,
+      'Content-Security-Policy': ['*']
+    }
+  })
+})
 
 
  /**
@@ -93,6 +103,8 @@ async function createWindow() {
     await editorWindow.loadURL(editorPageUrl); 
 
 
+    editorWindow?.webContents.openDevTools();
+    engineWindow?.webContents.openDevTools();
 
 
     let driverWindow = browserWindow;

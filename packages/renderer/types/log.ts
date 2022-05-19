@@ -4,4 +4,8 @@ export default class Log {
 		console.log(`Automaz Info ${msg}`);
 	}
 
+
+	  
+	  
+
 }
