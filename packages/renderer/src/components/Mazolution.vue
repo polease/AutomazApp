@@ -9,31 +9,28 @@ import _ from "underscore";
 import Engine from "../../types/Engine";
 import type { ProblemSolution } from "../../types/Solution";
 import "../../../renderer/src/index"; 
+import {sleep} from "../../types/util"
 
 var engine = new Engine();
 
 export default {
   methods: {
-    execute: function () {
+    execute: async function () {
       //switch driver
       window.api.send("set-driver", "editor");
 
-      //window.autoweb.send()
-      window.autoWeb.loadURL("http://www.baidu.com");
-          //window.autoweb.wait(2000);
+      
+     
 
       //BrowserWindow.getFocusedWindow().hide();
 
       var result = null;
       //todo: check environment first
-      _.each(
-        this.problemSolution.steps,
-        function (step, index) {
-          engine.execute(step);
+      for(var step of this.problemSolution.steps)
+          await engine.execute(step);
           //this.executionInfo = result;
-        },
-        this
-      );
+         
+          
     },
   },
   expose: ["execute"],

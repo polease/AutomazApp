@@ -5,6 +5,10 @@ export default class Log {
 	}
 
 
+	public static infoObject(obj: any) {
+		console.log(obj);
+	}
+
 	  
 	  
 

@@ -171,20 +171,41 @@ robot.moveMouse(x, y);
                     waitForStep: true,
                     delayEndMilliseconds:2000,
                     automationScript: ` 
-                    window.autoWeb.loadURL("http://www.bing.com");
+                    window.autoWeb.loadURL("http://www.google.com/");
           `,
                 },
                 {
                     number: 2,
                     name: "search ",
+                    waitForStep: true,
+                    delayStartMilliseconds:5000,
                     automationScript: `
-           
-          
+            
           window.autoWeb.inputText("input[name='q']","hello");
 
           
           `,
                 },
+                {
+                    number: 3,
+                    name: "search local",
+                    waitForStep: true,
+                    delayStartMilliseconds:5000,
+                    automationScript: ` 
+            
+                    window.autoWeb.trigger("input[name='btnK","click");
+          `,
+                },
+                {
+                    number: 4,
+                    name: "search local",
+                    waitForStep: true,
+                    delayEndMilliseconds:5000,
+                    automationScript: ` 
+                    alert("4")
+          `,
+                },
+                
             ],
 
         }, // // #2

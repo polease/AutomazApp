@@ -23,7 +23,7 @@
       maxlength="100"
       hint="Searching for solution created by smart people around you..."
       label="what problem you want to solve?"
-      @keydown.enter="execute"
+      @keydown.enter="execute() "
     ></v-text-field>
     <v-card class="mx-auto" tile>
       <v-list-item lines="two" v-for="solution in matchingSolutions">
@@ -100,10 +100,10 @@ export default {
       )
         this.selectedSolution = this.matchingSolutions[0];
     },
-    execute() {
+    async execute() {
       console.info("execute" + this.selectedSolution);
       if (this.selectedSolution) {
-        this.mazolution.execute();
+        await this.mazolution.execute();
       }
     },
   },

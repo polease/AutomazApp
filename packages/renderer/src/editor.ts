@@ -67,12 +67,12 @@ ipcRenderer.send("set-driver", "editor");
 const Engine = require("./engine");
 var engine = new Engine();
 
-function executeScript(script) {
+async function executeScript(script) {
   var automationStep = {
     number: 1,
     name: "editor step",
     waitForStep: false,
     automationScript: script,
   };
-  engine.execute(automationStep);
+  await engine.execute(automationStep);
 }

@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain, globalShortcut, session } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';  
 import AutoWebProxy from './AutoWebProxy'; 
+import { windowInjection } from './windowInjection';
 
 
 async function createWindow() {
@@ -70,14 +71,14 @@ async function createWindow() {
     await engineWindow.loadURL(hostPageUrl);
  
 
-session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-  callback({
-    responseHeaders: {
-      ...details.responseHeaders,
-      'Content-Security-Policy': ['*']
-    }
-  })
-})
+// session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+//   callback({
+//     responseHeaders: {
+//       ...details.responseHeaders,
+//       'Content-Security-Policy': ['*']
+//     }
+//   })
+// })
 
 
  /**
@@ -126,6 +127,10 @@ session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     // Setup AutoWeb
     let autoWebProxy:AutoWebProxy = new AutoWebProxy(engineWindow);
     autoWebProxy.setup();
+
+    engineWindow.webContents.on("did-finish-load", function(){
+      windowInjection.setup(engineWindow);
+    });
   
     
   

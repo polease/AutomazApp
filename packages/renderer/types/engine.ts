@@ -18,10 +18,11 @@ export default class Engine {
 	async executeTask(automationStep:SolutionStep, engine : Engine) {
 
 		if(automationStep.delayStartMilliseconds)
-			sleep(automationStep.delayStartMilliseconds);
+			await sleep(automationStep.delayStartMilliseconds);
 
 		// this is executed in Queee's context
 		Log.info(`Evaluation Step ${automationStep.number} started, waitForStep ${automationStep.waitForStep}`);
+		Log.infoObject(automationStep);
 		try {
 			engine.evalInContext(automationStep.automationScript,engine.engineContext);
 
@@ -38,7 +39,7 @@ export default class Engine {
 		} 
 
 		if(automationStep.delayEndMilliseconds)
-			sleep(automationStep.delayEndMilliseconds);
+			await sleep(automationStep.delayEndMilliseconds);
 
 	};
 

@@ -1,5 +1,6 @@
 
 import { BrowserWindow, ipcMain, globalShortcut } from 'electron';
+import {AutoWebInputTextViaLocator, TriggerEventViaSelector} from "../../renderer/types/inputEvent"
 
 
 export default class AutoWebProxy {
@@ -20,8 +21,13 @@ export default class AutoWebProxy {
 
 
           ipcMain.on('auto-web-inputText', function (event, arg) {
-            self.inputText(arg);
+            self.inputText(<AutoWebInputTextViaLocator>(JSON.parse(arg)));
           });
+
+          ipcMain.on('auto-web-trigger', function (event, arg) {
+            self.trigger(<TriggerEventViaSelector>(JSON.parse(arg)));
+          });
+ 
     }
 
     public async  loadURL(url: string) {
@@ -29,13 +35,23 @@ export default class AutoWebProxy {
     }
 
 
-    public  inputText(arg : {locator:string, text:string}) {
+    public  inputText(arg : AutoWebInputTextViaLocator) {
 
-        const locator = arg.locator;
+        const locator = arg.selector;
         const text = arg.text;
 
-        const script = `$("${locator}").value = "${text}";`
+        const script = `$("${locator}").val("${text}");`
         //const script = "alert('hello')";
+        this.win?.webContents.executeJavaScript(script);
+    }
+
+    public trigger(arg:TriggerEventViaSelector ) {
+
+        const locator = arg.selector;
+        const text = arg.eventName;
+
+        const script = `$("${locator}").trigger("${text}");`
+        
         this.win?.webContents.executeJavaScript(script);
     }
 

@@ -1,6 +1,8 @@
 
 import { ipcRenderer } from 'electron';
 import { exposeInMainWorld } from './exposeInMainWorld';
+import { waitForSleep} from "../../renderer/types/util"
+import {AutoWebInputTextViaLocator,TriggerEventViaSelector} from "./../../renderer/types/inputEvent"
 
 
 // this.copy = function (arg) {
@@ -33,16 +35,26 @@ async function  loadURL(url: string) {
     await ipcRenderer.invoke('auto-web-loadURL', url);
 };
 
-function typeText(text: string) {
-    ipcRenderer.send('auto-web-sendInputEvent', { type: 'keyDown', keyCode: text });
+function type(keyCode: string) {
+    //ipcRenderer.send('auto-web-sendInputEvent', { type: 'keyDown', keyCode: keyCode });
 };
 
-function inputText(locator: string, text: string) {
-    ipcRenderer.send('auto-web-inputText', { locator: locator, text: text });
+function inputText(selector: string, text: string) {
+    ipcRenderer.send('auto-web-inputText',JSON.stringify(<AutoWebInputTextViaLocator>{ selector: selector, text: text }));
 };
 
+function trigger(selector: string, eventName: string) {
+    ipcRenderer.send('auto-web-trigger',JSON.stringify(<TriggerEventViaSelector>{ selector: selector, eventName: eventName }));
+};
+
+
+ 
+
+function wait(ms:number){
+    waitForSleep(ms);
+}
 // Export for types in contracts.d.ts
-export const autoWeb = { loadURL,inputText } as const;
+export const autoWeb = { loadURL,inputText, wait } as const;
 
 
 
