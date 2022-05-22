@@ -54,7 +54,7 @@ function wait(ms:number){
     waitForSleep(ms);
 }
 // Export for types in contracts.d.ts
-export const autoWeb = { loadURL,inputText, wait } as const;
+export const autoWeb = { loadURL,inputText, wait,trigger } as const;
 
 
 

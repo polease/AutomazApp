@@ -169,7 +169,6 @@ robot.moveMouse(x, y);
                     number: 1,
                     name: "search local",
                     waitForStep: true,
-                    delayEndMilliseconds:2000,
                     automationScript: ` 
                     window.autoWeb.loadURL("http://www.google.com/");
           `,
@@ -190,17 +189,16 @@ robot.moveMouse(x, y);
                     number: 3,
                     name: "search local",
                     waitForStep: true,
-                    delayStartMilliseconds:5000,
+                    delayStartMilliseconds:3000,
                     automationScript: ` 
             
-                    window.autoWeb.trigger("input[name='btnK","click");
+                    window.autoWeb.trigger("input[name='btnK']","click");
           `,
                 },
                 {
                     number: 4,
                     name: "search local",
-                    waitForStep: true,
-                    delayEndMilliseconds:5000,
+                    waitForStep: true, 
                     automationScript: ` 
                     alert("4")
           `,

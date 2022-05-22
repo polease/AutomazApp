@@ -51,6 +51,8 @@ export default class AutoWebProxy {
         const text = arg.eventName;
 
         const script = `$("${locator}").trigger("${text}");`
+
+        console.log(script);
         
         this.win?.webContents.executeJavaScript(script);
     }

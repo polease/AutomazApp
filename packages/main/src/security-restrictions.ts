@@ -24,6 +24,7 @@ const ALLOWED_ORIGINS_AND_PERMISSIONS = new Map<string, Set<'clipboard-read' | '
  */
 const ALLOWED_EXTERNAL_ORIGINS = new Set<`https://${string}`>([
   'https://github.com',
+  'https://www.google.com.hk'
 ]);
 
 
@@ -38,17 +39,22 @@ app.on('web-contents-created', (_, contents) => {
    * @see https://www.electronjs.org/docs/latest/tutorial/security#13-disable-or-limit-navigation
    */
   contents.on('will-navigate', (event, url) => {
-    const {origin} = new URL(url);
-    if (ALLOWED_ORIGINS_AND_PERMISSIONS.has(origin)) {
-      return;
-    }
+    //
+    
+    // TODO: below check should be added back
 
-    // Prevent navigation
-    event.preventDefault();
+    //
+    // const {origin} = new URL(url);
+    // if (ALLOWED_ORIGINS_AND_PERMISSIONS.has(origin)) {
+    //   return;
+    // }
 
-    if (import.meta.env.DEV) {
-      console.warn('Blocked navigating to an unallowed origin:', origin);
-    }
+    // // Prevent navigation
+    // event.preventDefault();
+
+    // if (import.meta.env.DEV) {
+    //   console.warn('Blocked navigating to an unallowed origin:', origin);
+    // }
   });
 
 
