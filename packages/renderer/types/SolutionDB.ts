@@ -170,8 +170,9 @@ robot.moveMouse(x, y);
                     name: "search local",
                     waitForStep: true,
                     automationScript: ` 
-                   let result = await window.autoWeb.loadURL("http://www.google.com/");
-                   this.result = result;
+                   await window.autoWeb.loadURL("http://www.google.com/");
+                   context["data"] = "hello";
+
           `,
                 },
                 {
@@ -182,8 +183,8 @@ robot.moveMouse(x, y);
                     automationScript: `
             
           window.autoWeb.inputText("input[name='q']","hello");
-
-          
+                   
+          alert(context["data"]);
           `,
                 },
                 {

@@ -3,6 +3,10 @@ import { ProblemSolution, SolutionStep } from "./Solution";
 import Log from "./log";
 import { sleep } from "./util";
 
+
+	// Shim for allowing async function creation via new Function
+	const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+
 export default class Engine {
 
 	
@@ -63,20 +67,31 @@ export default class Engine {
 	}
 
 	async asyncEvalInContext(js, context) {
-		//# Return the results of the in-line anonymous function we .call with the passed context
-		const asyncJS = `(async () =>{ 
+		
+		const asyncJS = ` 
 			 ${js} 
+			`;
 
-			 return this.result;
-			
-			})()`;
-		let result = function () { return eval(asyncJS); }.call(context);
-		return result;
+		Log.info(asyncJS);
+		let asyncFunc = new AsyncFunction('context', asyncJS);
+		return asyncFunc(context);
 
-		}
-
+	}
 
 
+		async asyncEvalInContextFunction(js, context) {
+			//# Return the results of the in-line anonymous function we .call with the passed context
+			const asyncJS = `(async () =>{ 
+				 ${js} 
+	
+				 return this.result;
+				
+				})()`;
+			let result = function () { return eval(asyncJS); }.call(context);
+			return result;
+	
+			}
+	
 
 
 }

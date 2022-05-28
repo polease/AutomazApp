@@ -42,6 +42,13 @@ export default class AutoWebProxy {
             self.trigger(<TriggerEventViaSelector>(JSON.parse(arg)));
         });
 
+        ipcMain.on('auto-web-executeJavascript', function (event, arg) {
+            self.executeJS(arg);
+        });
+
+        
+        
+
     }
 
 

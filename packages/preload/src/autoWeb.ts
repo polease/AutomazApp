@@ -67,13 +67,17 @@ function trigger(selector: string, eventName: string) {
 };
 
 
+function executeJavaScript(code: string){
+    ipcRenderer.send('auto-web-executeJavascript', code);
+};
+
  
 
 function wait(ms:number){
     waitForSleep(ms);
 }
 // Export for types in contracts.d.ts
-export const autoWeb = { loadURL,inputText, wait,trigger } as const;
+export const autoWeb = { loadURL,inputText, wait,trigger, executeJavaScript } as const;
 
 
 

@@ -4,6 +4,8 @@ import {builtinModules} from 'module';
 
 const PACKAGE_ROOT = __dirname;
 
+const prefix = `monaco-editor/esm/vs`;
+
 
 /**
  * @type {import('vite').UserConfig}
@@ -36,11 +38,27 @@ const config = {
       ],
       output: {
         entryFileNames: '[name].cjs',
+        manualChunks: {
+          jsonWorker: [`${prefix}/language/json/json.worker`],
+          cssWorker: [`${prefix}/language/css/css.worker`],
+          htmlWorker: [`${prefix}/language/html/html.worker`],
+          tsWorker: [`${prefix}/language/typescript/ts.worker`],
+          editorWorker: [`${prefix}/editor/editor.worker`],
+        },
       },
     },
     emptyOutDir: true,
     brotliSize: false,
   },
+  optimizeDeps: {
+    include: [
+      `monaco-editor/esm/vs/language/json/json.worker`,
+      `monaco-editor/esm/vs/language/css/css.worker`,
+      `monaco-editor/esm/vs/language/html/html.worker`,
+      `monaco-editor/esm/vs/language/typescript/ts.worker`,
+      `monaco-editor/esm/vs/editor/editor.worker`
+    ], 
+  }
 };
 
 export default config;

@@ -1,6 +1,16 @@
 # Typescript Common
 
-## 1. Promise & await
+
+
+## Article to Read
+
+[Async Js tutorial]: https://www.digitalocean.com/community/tutorials/js-async-functions
+
+
+
+
+
+1. ## Promise & await
 
 create a Promise & await it
 
@@ -17,6 +27,33 @@ when you create a promise, the await function is a gramar sugar for then functio
     );
 
     let finalResult = await waitForLoad;
+```
+
+
+
+## 2.Right approach for calling the async function (instead of eval)
+
+use **AsyncFunction** 
+
+Reference article : 
+
+[Evaluate Javascript Dynamically]: https://exploringjs.com/impatient-js/ch_dynamic-code-evaluation.html
+
+
+
+```typescript
+	async asyncEvalInContext(js, context) {
+		//# Return the results of the in-line anonymous function we .call with the passed context
+		const asyncJS = ` 
+			 ${js} 
+			`;
+
+		Log.info(asyncJS);
+		let asyncFunc = new AsyncFunction('context', asyncJS);
+		return asyncFunc(context);
+
+	}
+
 ```
 
 
