@@ -26,8 +26,6 @@ script.setAttribute('async', '');
 script.onload = function handleScriptLoaded() {
   console.log('script has loaded');
 
-  alert($('#hotsearch-content-wrapper').html());
-
   //document.getElementById('box').textContent = 'Script loaded successfully';
 };
 

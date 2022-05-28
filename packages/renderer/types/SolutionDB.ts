@@ -170,14 +170,15 @@ robot.moveMouse(x, y);
                     name: "search local",
                     waitForStep: true,
                     automationScript: ` 
-                    window.autoWeb.loadURL("http://www.google.com/");
+                   let result = await window.autoWeb.loadURL("http://www.google.com/");
+                   this.result = result;
           `,
                 },
                 {
                     number: 2,
                     name: "search ",
                     waitForStep: true,
-                    delayStartMilliseconds:5000,
+                    delayStartMilliseconds:1000,
                     automationScript: `
             
           window.autoWeb.inputText("input[name='q']","hello");
@@ -189,7 +190,7 @@ robot.moveMouse(x, y);
                     number: 3,
                     name: "search local",
                     waitForStep: true,
-                    delayStartMilliseconds:3000,
+                    //delayStartMilliseconds:3000,
                     automationScript: ` 
             
                     window.autoWeb.trigger("input[name='btnK']","click");
@@ -198,7 +199,7 @@ robot.moveMouse(x, y);
                 {
                     number: 4,
                     name: "search local",
-                    waitForStep: true, 
+                    waitForStep: false, 
                     automationScript: ` 
                     alert("4")
           `,

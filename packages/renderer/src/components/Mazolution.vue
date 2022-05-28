@@ -24,11 +24,8 @@ export default {
 
       //BrowserWindow.getFocusedWindow().hide();
 
-      var result = null;
-      //todo: check environment first
-      for(var step of this.problemSolution.steps)
-          await engine.execute(step);
-          //this.executionInfo = result;
+      await engine.executeSolution(this.problemSolution);
+     
          
           
     },

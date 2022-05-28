@@ -1,12 +1,16 @@
+
+ 
 export default class Log {
 
 	public static info(msg: string) {
-		console.log(`Automaz Info ${msg}`);
+		var currentDate = '[' + new Date().toISOString() + '] ';
+		console.log( `${currentDate} Automaz Info ${msg}`);
 	}
 
 
 	public static infoObject(obj: any) {
-		console.log(obj);
+		var currentDate = '[' + new Date().toISOString() + '] ';
+		console.log(currentDate,obj);
 	}
 
 	  

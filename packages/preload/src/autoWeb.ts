@@ -3,7 +3,9 @@ import { ipcRenderer } from 'electron';
 import { exposeInMainWorld } from './exposeInMainWorld';
 import { waitForSleep} from "../../renderer/types/util"
 import {AutoWebInputTextViaLocator,TriggerEventViaSelector} from "./../../renderer/types/inputEvent"
+import Log from "../../renderer/types/log"
 
+import {UrlMessage} from "./ipcMsgType" 
 
 // this.copy = function (arg) {
 //     this.sendInput(
@@ -30,9 +32,26 @@ import {AutoWebInputTextViaLocator,TriggerEventViaSelector} from "./../../render
 
 
 
+ 
 
-async function  loadURL(url: string) {
-    await ipcRenderer.invoke('auto-web-loadURL', url);
+async function loadURL(url: string) {
+    let request = <UrlMessage>{
+        //messageId: uuidv4(),
+        url : url
+    };
+    let result = await ipcRenderer.send('auto-web-loadURL', request);
+    let waitForLoad = new Promise((resolve)=>
+    {
+        ipcRenderer.once("auto-web-loadURL-complete",(event,arg:UrlMessage)=>{
+            Log.info("loaded " + arg.url);
+            resolve(arg);
+        })
+    }
+    );
+
+    let finalResult = await waitForLoad;
+    Log.info("load URL - final");
+ 
 };
 
 function type(keyCode: string) {

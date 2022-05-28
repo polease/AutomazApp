@@ -9,11 +9,6 @@ import { createVuetify } from  'Vuetify';
 
 const vuetify = createVuetify()
 
-/*
-    var $ = require('jquery');
-     alert($('#great').text()); 
-
-     */
      
 createApp(App).use(vuetify).mount('#app');
 
