@@ -68,7 +68,7 @@ function trigger(selector: string, eventName: string) {
 
 
 function executeJavaScript(code: string){
-    ipcRenderer.send('auto-web-executeJavascript', code);
+    ipcRenderer.send('auto-web-executeJavaScript', code);
 };
 
  

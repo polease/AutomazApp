@@ -3,6 +3,8 @@ import { AutoWebInputTextViaLocator, TriggerEventViaSelector } from "../../rende
 
 //import { v4 as uuidv4 } from 'uuid';
 import { UrlMessage } from "../../preload/src/ipcMsgType";
+import Log from "../../renderer/types/log"
+
 export default class AutoWebProxy {
 
     public win?: BrowserWindow;
@@ -42,12 +44,12 @@ export default class AutoWebProxy {
             self.trigger(<TriggerEventViaSelector>(JSON.parse(arg)));
         });
 
-        ipcMain.on('auto-web-executeJavascript', function (event, arg) {
-            self.executeJS(arg);
+        ipcMain.on('auto-web-executeJavaScript', async function (event, arg) {
+            await self.executeJS(arg);
         });
 
-        
-        
+
+
 
     }
 
@@ -59,7 +61,7 @@ export default class AutoWebProxy {
         const locator = arg.selector;
         const text = arg.text;
 
-        const script = `$("${locator}").val("${text}");`
+        const script = `$("${locator}").val("${text}");0;`
         //const script = "alert('hello')";
         await this.executeJS(script);
     }
@@ -69,16 +71,21 @@ export default class AutoWebProxy {
         const locator = arg.selector;
         const text = arg.eventName;
 
-        const script = `$("${locator}").trigger("${text}");`
+        const script = `$("${locator}").trigger("${text}"); 0;`
 
         console.log(script);
         await this.executeJS(script);
 
     }
 
-    public async executeJS(script:string){
+    public async executeJS(script: string) {
 
-        return await this.win?.webContents.executeJavaScript(script);
+        try {
+            let result = await this.win?.webContents.executeJavaScript(script);
+            return result;
+        } catch (e) {
+            Log.errorObject(e);
+        }
 
     }
 
